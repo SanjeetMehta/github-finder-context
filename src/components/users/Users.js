@@ -1,12 +1,17 @@
-import PropTypes from "prop-types";
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
+import GithubContext from "../../context/github/githubContext";
 import Spinner from "../layout/Spinner";
 import UserItems from "./UserItems";
-import GithubContext from "../../context/github/githubContext";
 
 const Users = () => {
     const githubContext = useContext(GithubContext);
     const {loading, users} = githubContext;
+
+    useEffect(() => {
+        githubContext.getAllUsers();
+        // eslint-disable-next-line
+    }, []);
+
     if (loading) {
         return <Spinner />;
     } else {
@@ -26,8 +31,4 @@ const userStyle = {
     gridGap: "1rem"
 };
 
-Users.propTypes = {
-    users: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
-};
 export default Users;
